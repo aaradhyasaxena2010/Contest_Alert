@@ -2,7 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const session = require('express-session');
-const { MongoStore } = require('connect-mongo');
+const MongoStore = require('connect-mongo');
 const passport = require('passport');
 
 const connectDB = require('./src/config/db');

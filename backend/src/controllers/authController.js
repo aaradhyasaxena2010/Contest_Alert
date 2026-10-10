@@ -9,8 +9,10 @@ const handleGoogleCallback = async (req, res) => {
         const populatedUser = await User.findById(user.id).populate('reminderPreferences');
         const prefs = populatedUser.reminderPreferences || [];
         
+        const frontendUrl = process.env.REACT_APP_FRONTEND_URL || 'http://localhost:3000';
+
         if (!prefs.length) {
-            return res.redirect(`${process.env.REACT_APP_FRONTEND_URL}`);
+            return res.redirect(frontendUrl);
         }
 
         const now = Math.floor(Date.now() / 1000);
@@ -43,10 +45,11 @@ const handleGoogleCallback = async (req, res) => {
             await new Promise(r => setTimeout(r, 500));
         }
 
-        res.redirect(`${process.env.REACT_APP_FRONTEND_URL}`);
+        res.redirect(frontendUrl);
     } catch (err) {
         console.error('OAuth calendar insertion failed:', err);
-        res.redirect('/login');
+        const frontendUrl = process.env.REACT_APP_FRONTEND_URL || 'http://localhost:3000';
+        res.redirect(`${frontendUrl}/login`);
     }
 };
 
